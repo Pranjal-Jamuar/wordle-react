@@ -4,6 +4,7 @@ import Board from "./components/Board"
 import Keyboard from "./components/Keyboard"
 import { createContext } from "react"
 import { boardDefault, generateWordSet } from "./Words"
+import Gameover from "./components/Gameover"
 
 export const AppContext = createContext()
 
@@ -12,12 +13,16 @@ function App() {
   const [wordSet, setWordSet] = useState(new Set())
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 })
   const [disabledLetters, setDisabledLetters] = useState([])
-
-  const correctWord = "right"
+  const [gameOver, setGameOver] = useState({
+    gameOver: false,
+    guessedWord: false,
+  })
+  const [correctWord, setCorrectWord] = useState("")
 
   useEffect(() => {
     generateWordSet().then(words => {
       setWordSet(words.wordSet)
+      setCorrectWord(words.todaysWord)
     })
   }, [])
 
@@ -42,8 +47,13 @@ function App() {
     }
 
     if (currWord === correctWord) {
-      // setGameOver({ gameOver: true, guessedWord: true })
-      alert("game over")
+      setGameOver({ gameOver: true, guessedWord: true })
+      return
+    }
+    console.log(currAttempt)
+    if (currAttempt.attempt === 5) {
+      setGameOver({ gameOver: true, guessedWord: false })
+      return
     }
   }
   const onDelete = () => {
@@ -70,11 +80,13 @@ function App() {
           correctWord,
           disabledLetters,
           setDisabledLetters,
+          gameOver,
+          setGameOver,
         }}
       >
         <div className="game">
           <Board />
-          <Keyboard />
+          {gameOver.gameOver ? <Gameover /> : <Keyboard />}
         </div>
       </AppContext.Provider>
     </div>
