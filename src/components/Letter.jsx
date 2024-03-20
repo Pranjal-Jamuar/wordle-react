@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import App, { AppContext } from "../App"
+import { AppContext } from "../App"
 
 const Letter = ({ letterPos, attemptVal }) => {
   const { board } = useContext(AppContext)
