@@ -2,15 +2,7 @@ import { useContext } from "react"
 import { AppContext } from "../App"
 
 const Gameover = () => {
-  const {
-    board,
-    setBoard,
-    currAttempt,
-    gameOver,
-    onSelectLetter,
-    correctWord,
-    onDelete,
-  } = useContext(AppContext)
+  const { currAttempt, gameOver, correctWord } = useContext(AppContext)
   return (
     <div className="gameOver">
       <h3>
